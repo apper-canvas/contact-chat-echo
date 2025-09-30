@@ -121,17 +121,18 @@ const filtered = contacts.filter(contact =>
           {filteredContacts.map((contact) => (
             <Card key={contact.Id} className="group hover:shadow-lg transition-all duration-200">
               <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
+<div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-<Avatar 
+                    <Avatar 
                       fallback={contact.name_c}
                       size="lg" 
                       className="mr-4" 
                     />
+                    <div>
                       <h3 className="font-semibold text-secondary-900 group-hover:text-primary-600 transition-colors">
                         {contact.name_c}
                       </h3>
-{contact.company_c && (
+                      {contact.company_c && (
                         <p className="text-sm text-secondary-500">{contact.company_c}</p>
                       )}
                     </div>
