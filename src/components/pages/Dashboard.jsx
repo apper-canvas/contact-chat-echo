@@ -31,7 +31,7 @@ const Dashboard = () => {
     loadDashboardData();
   }, []);
 
-  const loadDashboardData = async () => {
+const loadDashboardData = async () => {
     try {
       setLoading(true);
       setError("");
@@ -45,9 +45,9 @@ const Dashboard = () => {
       setContacts(contactsData);
       
       // Calculate stats
-      const totalValue = dealsData.reduce((sum, deal) => sum + deal.value, 0);
+      const totalValue = dealsData.reduce((sum, deal) => sum + (deal.value_c || 0), 0);
       const recentActivitiesCount = activitiesData.filter(activity => 
-        new Date(activity.timestamp) > subDays(new Date(), 7)
+        new Date(activity.timestamp_c) > subDays(new Date(), 7)
       ).length;
 
       setStats({
@@ -60,19 +60,19 @@ const Dashboard = () => {
       // Get recent data
       setRecentContacts(
         contactsData
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .sort((a, b) => new Date(b.created_at_c || b.CreatedOn) - new Date(a.created_at_c || a.CreatedOn))
           .slice(0, 5)
       );
       
       setRecentDeals(
         dealsData
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .sort((a, b) => new Date(b.created_at_c || b.CreatedOn) - new Date(a.created_at_c || a.CreatedOn))
           .slice(0, 5)
       );
       
       setRecentActivities(
         activitiesData
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .sort((a, b) => new Date(b.timestamp_c) - new Date(a.timestamp_c))
           .slice(0, 5)
       );
 
@@ -92,9 +92,9 @@ const Dashboard = () => {
     }).format(amount);
   };
 
-  const getContactName = (contactId) => {
+const getContactName = (contactId) => {
     const contact = contacts.find(c => c.Id === contactId);
-    return contact ? contact.name : "Unknown Contact";
+    return contact ? contact.name_c : "Unknown Contact";
   };
 
   const getActivityIcon = (type) => {
@@ -112,7 +112,7 @@ const Dashboard = () => {
   };
 
   const getStageColor = (stage) => {
-    const colors = {
+const colors = {
       "lead": "default",
       "qualified": "primary",
       "proposal": "accent",
@@ -190,11 +190,11 @@ const Dashboard = () => {
                 <p className="text-secondary-500 text-center py-8">No contacts yet</p>
               ) : (
                 recentContacts.map((contact) => (
-                  <div key={contact.Id} className="flex items-center space-x-3">
-                    <Avatar fallback={contact.name} size="sm" />
+<div key={contact.Id} className="flex items-center space-x-3">
+                    <Avatar fallback={contact.name_c} size="sm" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-secondary-900 truncate">
-                        {contact.name}
+                        {contact.name_c}
                       </p>
                       <p className="text-xs text-secondary-500 truncate">
                         {contact.company || contact.email}
@@ -232,21 +232,21 @@ const Dashboard = () => {
                 <p className="text-secondary-500 text-center py-8">No deals yet</p>
               ) : (
                 recentDeals.map((deal) => (
-                  <div key={deal.Id} className="flex items-center justify-between">
+<div key={deal.Id} className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-secondary-900 truncate">
-                        {deal.title}
+                        {deal.title_c}
                       </p>
                       <p className="text-xs text-secondary-500 truncate">
-                        {getContactName(deal.contactId)}
+                        {getContactName(deal.contact_id_c?.Id || deal.contact_id_c)}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-accent-600">
-                        {formatCurrency(deal.value)}
+                        {formatCurrency(deal.value_c)}
                       </p>
-                      <Badge variant={getStageColor(deal.stage)} size="sm">
-                        {deal.stage.replace("-", " ")}
+                      <Badge variant={getStageColor(deal.stage_c)} size="sm">
+                        {deal.stage_c?.replace("-", " ")}
                       </Badge>
                     </div>
                   </div>
@@ -278,19 +278,19 @@ const Dashboard = () => {
                 <p className="text-secondary-500 text-center py-8">No recent activities</p>
               ) : (
                 recentActivities.map((activity) => (
-                  <div key={activity.Id} className="flex items-start space-x-3">
+<div key={activity.Id} className="flex items-start space-x-3">
                     <div className="p-2 bg-secondary-100 rounded-full">
                       <ApperIcon 
-                        name={getActivityIcon(activity.type)} 
+                        name={getActivityIcon(activity.type_c)} 
                         className="w-4 h-4 text-secondary-600" 
                       />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-secondary-900">
-                        {activity.description}
+                        {activity.description_c}
                       </p>
                       <p className="text-xs text-secondary-500">
-                        {getContactName(activity.contactId)} • {format(new Date(activity.timestamp), "MMM dd, h:mm a")}
+                        {getContactName(activity.contact_id_c?.Id || activity.contact_id_c)} • {format(new Date(activity.timestamp_c), "MMM dd, h:mm a")}
                       </p>
                     </div>
                   </div>

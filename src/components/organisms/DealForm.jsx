@@ -38,14 +38,14 @@ const DealForm = ({ isOpen, onClose, deal, onSuccess }) => {
 
   useEffect(() => {
     if (deal) {
-      const expectedDate = deal.expectedCloseDate ? format(new Date(deal.expectedCloseDate), "yyyy-MM-dd") : "";
+const expectedDate = deal.expected_close_date_c ? format(new Date(deal.expected_close_date_c), "yyyy-MM-dd") : "";
       setFormData({
-        title: deal.title || "",
-        contactId: deal.contactId || "",
-        value: deal.value?.toString() || "",
-        stage: deal.stage || "lead",
-        probability: deal.probability?.toString() || "10",
-        expectedCloseDate: expectedDate,
+        title_c: deal.title_c || deal.title || "",
+        contact_id_c: deal.contact_id_c?.Id || deal.contact_id_c || deal.contactId || "",
+        value_c: deal.value_c?.toString() || deal.value?.toString() || "",
+        stage_c: deal.stage_c || deal.stage || "lead",
+        probability_c: deal.probability_c?.toString() || deal.probability?.toString() || "10",
+        expected_close_date_c: expectedDate,
       });
     } else {
       setFormData({
@@ -175,8 +175,8 @@ const DealForm = ({ isOpen, onClose, deal, onSuccess }) => {
           >
             <option value="">Select a contact</option>
             {contacts.map(contact => (
-              <option key={contact.Id} value={contact.Id}>
-                {contact.name} - {contact.company}
+<option key={contact.Id} value={contact.Id}>
+                {contact.name_c} - {contact.company_c}
               </option>
             ))}
           </select>

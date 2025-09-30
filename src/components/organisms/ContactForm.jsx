@@ -6,32 +6,32 @@ import Modal from "@/components/molecules/Modal";
 import contactService from "@/services/api/contactService";
 
 const ContactForm = ({ isOpen, onClose, contact, onSuccess }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company: "",
-    notes: "",
+const [formData, setFormData] = useState({
+    name_c: "",
+    email_c: "",
+    phone_c: "",
+    company_c: "",
+    notes_c: "",
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (contact) {
+if (contact) {
       setFormData({
-        name: contact.name || "",
-        email: contact.email || "",
-        phone: contact.phone || "",
-        company: contact.company || "",
-        notes: contact.notes || "",
+        name_c: contact.name_c || contact.name || "",
+        email_c: contact.email_c || contact.email || "",
+        phone_c: contact.phone_c || contact.phone || "",
+        company_c: contact.company_c || contact.company || "",
+        notes_c: contact.notes_c || contact.notes || "",
       });
     } else {
       setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        notes: "",
+        name_c: "",
+        email_c: "",
+        phone_c: "",
+        company_c: "",
+        notes_c: "",
       });
     }
     setErrors({});
@@ -40,20 +40,19 @@ const ContactForm = ({ isOpen, onClose, contact, onSuccess }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+if (!formData.name_c?.trim()) {
+      newErrors.name_c = "Name is required";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
+    if (!formData.email_c?.trim()) {
+      newErrors.email_c = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email_c)) {
+      newErrors.email_c = "Email is invalid";
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone is required";
+    if (!formData.phone_c?.trim()) {
+      newErrors.phone_c = "Phone is required";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -100,17 +99,17 @@ const ContactForm = ({ isOpen, onClose, contact, onSuccess }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <FormField
           label="Name"
-          name="name"
-          value={formData.name}
+name="name_c"
+          value={formData.name_c}
           onChange={handleChange}
           error={errors.name}
           required
           placeholder="Enter full name"
         />
 
-        <FormField
+<FormField
           label="Email"
-          name="email"
+          name="email_c"
           type="email"
           value={formData.email}
           onChange={handleChange}
@@ -124,15 +123,15 @@ const ContactForm = ({ isOpen, onClose, contact, onSuccess }) => {
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          error={errors.phone}
+error={errors.phone_c}
           required
           placeholder="Enter phone number"
         />
 
         <FormField
           label="Company"
-          name="company"
-          value={formData.company}
+name="company_c"
+          value={formData.company_c}
           onChange={handleChange}
           error={errors.company}
           placeholder="Enter company name"
@@ -146,9 +145,9 @@ const ContactForm = ({ isOpen, onClose, contact, onSuccess }) => {
           error={errors.notes}
           placeholder="Additional notes..."
         >
-          <textarea
-            name="notes"
-            value={formData.notes}
+<textarea
+            name="notes_c"
+            value={formData.notes_c}
             onChange={handleChange}
             className="flex min-h-[80px] w-full rounded-lg border border-secondary-300 bg-white px-3 py-2 text-sm placeholder:text-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 resize-none"
             placeholder="Additional notes..."

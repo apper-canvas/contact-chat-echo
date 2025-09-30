@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { Card, CardContent } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Avatar from "@/components/atoms/Avatar";
-import SearchBar from "@/components/molecules/SearchBar";
+import ContactForm from "@/components/organisms/ContactForm";
 import ApperIcon from "@/components/ApperIcon";
-import ContactForm from "./ContactForm";
-import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
+import Avatar from "@/components/atoms/Avatar";
+import Badge from "@/components/atoms/Badge";
+import SearchBar from "@/components/molecules/SearchBar";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
 import contactService from "@/services/api/contactService";
 
 const ContactList = () => {
@@ -28,10 +28,10 @@ const ContactList = () => {
 
   useEffect(() => {
     if (searchTerm) {
-      const filtered = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (contact.company && contact.company.toLowerCase().includes(searchTerm.toLowerCase()))
+const filtered = contacts.filter(contact =>
+        contact.name_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contact.email_c?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (contact.company_c && contact.company_c.toLowerCase().includes(searchTerm.toLowerCase()))
       );
       setFilteredContacts(filtered);
     } else {
@@ -123,16 +123,16 @@ const ContactList = () => {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
-                    <Avatar 
-                      fallback={contact.name}
-                      size="md"
+<Avatar 
+                      fallback={contact.name_c}
+                      size="lg" 
+                      className="mr-4" 
                     />
-                    <div>
                       <h3 className="font-semibold text-secondary-900 group-hover:text-primary-600 transition-colors">
-                        {contact.name}
+                        {contact.name_c}
                       </h3>
-                      {contact.company && (
-                        <p className="text-sm text-secondary-500">{contact.company}</p>
+{contact.company_c && (
+                        <p className="text-sm text-secondary-500">{contact.company_c}</p>
                       )}
                     </div>
                   </div>
@@ -158,23 +158,23 @@ const ContactList = () => {
                 <div className="space-y-2">
                   <div className="flex items-center text-sm text-secondary-600">
                     <ApperIcon name="Mail" className="w-4 h-4 mr-2 text-secondary-400" />
-                    <span className="truncate">{contact.email}</span>
+<span className="truncate">{contact.email_c}</span>
                   </div>
                   <div className="flex items-center text-sm text-secondary-600">
                     <ApperIcon name="Phone" className="w-4 h-4 mr-2 text-secondary-400" />
-                    <span>{contact.phone}</span>
+<span>{contact.phone_c}</span>
                   </div>
-                  {contact.notes && (
+{contact.notes_c && (
                     <div className="flex items-start text-sm text-secondary-600 mt-3">
                       <ApperIcon name="FileText" className="w-4 h-4 mr-2 text-secondary-400 mt-0.5" />
-                      <span className="line-clamp-2">{contact.notes}</span>
+                      <span className="line-clamp-2">{contact.notes_c}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-secondary-100">
                   <Badge variant="default" size="sm">
-                    Added {format(new Date(contact.createdAt), "MMM dd")}
+Added {format(new Date(contact.created_at_c || contact.CreatedOn), "MMM dd")}
                   </Badge>
                   <div className="flex items-center space-x-2">
                     <button className="text-secondary-400 hover:text-primary-500 transition-colors">
