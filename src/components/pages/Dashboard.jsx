@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { format, subDays } from "date-fns";
+import { subDays } from "date-fns";
+import { safeFormat } from "@/utils/cn";
 import StatCard from "@/components/molecules/StatCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
@@ -201,7 +202,7 @@ const colors = {
                       </p>
                     </div>
                     <div className="text-xs text-secondary-400">
-                      {format(new Date(contact.createdAt), "MMM dd")}
+{safeFormat(contact.createdAt, "MMM dd", "N/A")}
                     </div>
                   </div>
                 ))
@@ -290,7 +291,7 @@ const colors = {
                         {activity.description_c}
                       </p>
                       <p className="text-xs text-secondary-500">
-                        {getContactName(activity.contact_id_c?.Id || activity.contact_id_c)} • {format(new Date(activity.timestamp_c), "MMM dd, h:mm a")}
+{getContactName(activity.contact_id_c?.Id || activity.contact_id_c)} • {safeFormat(activity.timestamp_c, "MMM dd, h:mm a", "Unknown time")}
                       </p>
                     </div>
                   </div>

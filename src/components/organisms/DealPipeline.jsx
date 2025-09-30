@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { format } from "date-fns";
+import { safeFormat } from "@/utils/cn";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
@@ -235,7 +235,7 @@ const getTotalValueByStage = (stage) => {
                           
                           <div className="flex items-center text-xs text-secondary-500 mt-2">
 <ApperIcon name="Calendar" className="w-3 h-3 mr-1" />
-                            Close: {format(new Date(deal.expected_close_date_c), "MMM dd")}
+Close: {safeFormat(deal.expected_close_date_c, "MMM dd", "TBD")}
                           </div>
                         </motion.div>
                       ))

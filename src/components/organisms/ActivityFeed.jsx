@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { format, isToday, isYesterday } from "date-fns";
+import { isToday, isYesterday } from "date-fns";
+import { safeFormat, isValidDate } from "@/utils/cn";
 import { Card, CardContent } from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
 import Avatar from "@/components/atoms/Avatar";
@@ -81,21 +82,21 @@ if (!dealId) return null;
     return colors[type] || "text-secondary-500";
   };
 
-  const formatDate = (date) => {
+const formatDate = (date) => {
+    if (!isValidDate(date)) return "Invalid date";
     const activityDate = new Date(date);
     if (isToday(activityDate)) {
       return "Today";
     } else if (isYesterday(activityDate)) {
       return "Yesterday";
     } else {
-      return format(activityDate, "MMM dd, yyyy");
+      return safeFormat(activityDate, "MMM dd, yyyy", "Unknown date");
     }
   };
 
   const formatTime = (date) => {
-    return format(new Date(date), "h:mm a");
+    return safeFormat(date, "h:mm a", "Unknown time");
   };
-
 const groupedActivities = activities.reduce((groups, activity) => {
     const dateKey = formatDate(activity.timestamp_c);
     if (!groups[dateKey]) {
